@@ -1,7 +1,18 @@
-# Get-Hired — React Website (Company Standard Structure)
+# Get-Hired — React Website
 
-Homepage for Get-Hired ("Master the US Career Arena"), built with the exact same
-folder structure and code format as the Kadders React project.
+> **Master the US Career Arena** — A production-ready React + Vite website for Get-Hired.
+
+## Tech Stack
+
+- React 18 + Vite
+- Tailwind CSS v4
+- Framer Motion (motion/react)
+- React Router v6
+- i18next (all content in `en.json`)
+- Axios (API calls)
+- React Helmet Async (SEO)
+- React Toastify (notifications)
+- WordPress REST API (blog posts)
 
 ## Run it
 
@@ -12,94 +23,113 @@ npm run build      # production build -> dist/
 npm run preview    # serve the production build
 ```
 
-## Folder structure (same as Kadders)
+## Environment Variables
+
+Create a `.env` file in the root:
+
+```env
+VITE_IMAGES="http://localhost:5173"
+VITE_API_URL="http://localhost:5000"
+VITE_SITE_URL="https://www.gethired.com"
+VITE_WORDPRESS_API_URL="https://yourblog.wordpress.com/wp-json/wp/v2"
+VITE_LINKEDIN_URL="https://www.linkedin.com/company/get-hired-us"
+VITE_INSTAGRAM_URL="https://www.instagram.com/gethired.us/"
+VITE_X_URL="https://twitter.com/gethired"
+VITE_YOUTUBE_URL="https://www.youtube.com/@gethired"
+```
+
+## Folder Structure
 
 ```
-gethired_react/
-├── App.jsx                ← Routes live here (root, Kadders standard)
-├── i18n.jsx               ← i18next setup (root, Kadders standard)
+gethired_react_website/
+├── App.jsx                   ← Routes
+├── i18n.jsx                  ← i18next setup
 ├── index.html
-├── .env                   ← VITE_IMAGES / VITE_API_URL etc.
-├── tailwind.config.js / postcss.config.js / vite.config.js
+├── .env
+├── tailwind.config.js
 ├── public/
-│   ├── logo.svg / logo-white.svg / favicon.svg
-│   └── images/            ← ALL images (demo files included, replace freely)
-│       ├── brands/        ← marquee logos (png)
-│       ├── capabilities/  ← accordion panel images (jpg)
-│       ├── stories/       ← success story images (jpg)
-│       ├── blog/          ← insight card covers (jpg)
-│       └── why/           ← dark section background (jpg)
+│   └── images/
+│       ├── hero/             ← Mobile.png, chips, job cards
+│       ├── brands/           ← marquee logos
+│       ├── capabilities/     ← accordion images
+│       ├── stories/          ← success story images
+│       ├── blog/             ← insight card covers
+│       └── why/              ← section background
 └── src/
-    ├── main.jsx           ← entry (HelmetProvider + BrowserRouter + Toast)
-    ├── locales/en.json    ← ALL website text + image paths (edit content here)
-    ├── services/api.js    ← axios instance (for future backend/forms)
-    ├── styles/index.css   ← Tailwind theme tokens + global CSS
-    ├── pages/             ← Home.jsx, NotFound.jsx (1 file = 1 URL)
+    ├── main.jsx              ← entry (HelmetProvider + ThemeProvider + BrowserRouter)
+    ├── context/
+    │   └── ThemeContext.jsx  ← light/dark mode state
+    ├── locales/en.json       ← ALL website text + image paths
+    ├── services/
+    │   ├── api.js            ← axios instance
+    │   └── wordpress.js      ← WordPress REST API + mock fallback
+    ├── styles/index.css      ← Tailwind tokens + dark mode + global CSS
+    ├── pages/
+    │   ├── Home.jsx
+    │   ├── BlogList.jsx
+    │   ├── BlogDetail.jsx
+    │   ├── Contact.jsx
+    │   └── NotFound.jsx
     └── components/
-        ├── layouts/       ← MainLayout (Navbar + <Outlet/> + Footer)
-        ├── common/        ← Navbar, Footer, SEO + hooks/useArrayTranslation
-        ├── sections/home/ ← HeroSection, BrandsSection, CapabilitiesSection,
-        │                    WhyGetHiredSection, SuccessStoriesSection,
-        │                    ConsultingEcosystemSection, InsightsSection,
-        │                    GetStartedSection
-        └── ui/            ← Button, OutlineButton, TextLink, SectionBadge,
-                             SectionHeading, LogoMarquee, JobCard, StoryCard,
-                             BlogCard, EcosystemCard, Icons
+        ├── layouts/          ← MainLayout (Navbar + Outlet + Footer)
+        ├── common/           ← Navbar, Footer, SEO, ScrollToTop
+        │   └── hooks/        ← useArrayTranslation, useScrollSpy
+        ├── animations/
+        │   └── home/         ← AnimatedLogoMarquee, CapabilityVideo, StatCounter
+        ├── sections/
+        │   ├── hero/         ← HeroSection, HeroContent, HeroVisual, HeroClouds
+        │   ├── home/         ← BrandsSection, CapabilitiesSection, WhyGetHiredSection,
+        │   │                    SuccessStoriesSection, ConsultingEcosystemSection,
+        │   │                    InsightsSection, GetStartedSection
+        │   └── contact/      ← ContactSection
+        └── ui/               ← Button, OutlineButton, TextLink, SectionBadge,
+                                 SectionHeading, BlogCard, StoryCard, EcosystemCard, Icons
 ```
 
-## How content works (Kadders pattern)
+## How Content Works
 
-Every section reads its text from `src/locales/en.json` through the
-`useArrayTranslation` hook:
+All text lives in `src/locales/en.json`. Use the `useArrayTranslation` hook:
 
 ```jsx
 const heroSection = useArrayTranslation("hero_section");
 // heroSection.title_line1, heroSection.description ...
 ```
 
-To change ANY text on the website → edit `en.json` only. No JSX changes needed.
+To change ANY text → edit `en.json` only. No JSX changes needed.
 
-## How images work (fully dynamic)
+## How Images Work
 
-Image paths are stored **inside en.json**, and components build the URL with the
-`VITE_IMAGES` base from `.env` (same as Kadders):
+Image paths are stored in `en.json`, built with `VITE_IMAGES` base from `.env`:
 
 ```jsx
 const assetBaseUrl = import.meta.env.VITE_IMAGES;
 <img src={`${assetBaseUrl}${story.image}`} />
 ```
 
-Two ways to swap an image:
+To swap an image — overwrite the file in `public/images/` with the same name. To use a CDN later, set `VITE_IMAGES="https://cdn.gethired.com"` — zero code changes.
 
-1. **Same name** — overwrite the demo file, e.g. put your real photo at
-   `public/images/stories/microsoft.jpg`. Done, nothing else to change.
-2. **New name** — drop `public/images/stories/anything.jpg` and update the
-   path in `en.json` (`"image": "/images/stories/anything.jpg"`).
+## Dark Mode
 
-Later, if images move to a CDN, just set `VITE_IMAGES="https://cdn.gethired.com"`
-in `.env` — zero code changes.
+Theme toggle is in the Navbar (sun/moon icon). State is saved in `localStorage` so it persists on refresh. Powered by `ThemeContext` + Tailwind `darkMode: "class"`.
 
-All demo images are generated placeholders labeled "replace me".
+## Blog (WordPress)
 
-## Animation status (step-by-step plan)
+Blog posts are fetched from WordPress REST API via `src/services/wordpress.js`.
 
-Current build is the SIMPLE version — clean CSS-only motion:
+- If `VITE_WORDPRESS_API_URL` is set → fetches live posts
+- If not set or API fails → falls back to built-in mock posts automatically
 
-- Logo marquee auto-scroll with hover pause (Kadders' own LogoMarquee component)
-- Accordion open/close via CSS grid-rows transition (`.accordion-body` in index.css)
-- Navbar scroll blur + shadow
-- Hover transitions on cards, buttons, blog image zoom
-
-Next steps we can add one by one (framer-motion):
-1. Scroll-reveal fade-up for every section (a small `<Reveal />` wrapper)
-2. Hero staggered entrance + floating phone/cards
-3. Count-up animation for the 1000+ / 05+ / 500+ stats
-4. Drag carousel for the Why Get-Hired cards
-5. AnimatePresence mobile menu
-
-## Adding a new page (the standard workflow)
+## Adding a New Page
 
 1. Create sections in `src/components/sections/<pagename>/`
-2. Create `src/pages/<PageName>.jsx` that stacks those sections + `<SEO />`
-3. Register the route in root `App.jsx`
+2. Create `src/pages/<PageName>.jsx`
+3. Register the route in `App.jsx`
 4. Add the link to `nav_links` in `en.json`
+
+## Deploy
+
+```bash
+npm run build   # outputs to dist/
+```
+
+Deploy `dist/` to Vercel, Netlify, or AWS Amplify. Set all `.env` variables in the hosting dashboard.
