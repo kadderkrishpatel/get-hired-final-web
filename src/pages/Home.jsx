@@ -10,17 +10,7 @@ import GetStartedSection from "../components/sections/home/GetStartedSection";
 import SEO from "../components/common/SEO";
 
 const Home = () => {
-  // useEffect(() => {
-  //   if (window.location.hash) {
-  //     const element = document.getElementById(window.location.hash.substring(1));
-  //     if (element) {
-  //       const timer = setTimeout(() => {
-  //         element.scrollIntoView({ behavior: "smooth" });
-  //       }, 150);
-  //       return () => clearTimeout(timer);
-  //     }
-  //   }
-  // }, []);
+
 
   return (
     <div className="w-full overflow-x-clip">
