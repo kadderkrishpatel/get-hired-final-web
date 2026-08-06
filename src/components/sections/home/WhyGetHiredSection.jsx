@@ -136,7 +136,7 @@ const WhyGetHiredSection = () => {
             className="mt-16 sm:mt-24 -mx-6 sm:-mx-10 overflow-hidden"
           >
             <motion.div
-              variants={staggerContainer(0.12)}
+              variants={staggerContainer(0.08)}
               initial="hidden"
               whileInView="visible"
               viewport={VIEWPORT_ONCE}

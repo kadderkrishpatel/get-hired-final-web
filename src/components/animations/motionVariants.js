@@ -121,15 +121,15 @@ export const slideInward = (fromX = 0, fromY = 24) => ({
 export const petalUp = {
   hidden: (index = 0) => ({
     opacity: 0,
-    y: 70,
-    scale: 0.8,
-    rotate: index % 2 === 0 ? -10 : 10,
+    y: 45,
+    scale: 0.92,
+    rotate: index % 2 === 0 ? -3 : 3,
   }),
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
     rotate: 0,
-    transition: { duration: 0.8, ease: EASE_POP },
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
   },
 };
