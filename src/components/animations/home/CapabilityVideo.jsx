@@ -45,7 +45,7 @@ const CapabilityVideo = ({ src, poster, active = true, alt = "" }) => {
   };
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full overflow-hidden rounded-2xl bg-[#F8F9FA] flex items-center justify-center">
       <video
         ref={videoRef}
         src={src}
@@ -57,7 +57,7 @@ const CapabilityVideo = ({ src, poster, active = true, alt = "" }) => {
         onLoadedData={() => setVideoReady(true)}
         onError={handleError}
         aria-label={alt}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover scale-[1.03] sm:scale-[1.04] transform origin-center transition-transform duration-300"
       />
       {/* Poster overlay — plain <img> so object-cover is guaranteed to
           apply consistently, unlike the native video poster attribute.
@@ -66,7 +66,7 @@ const CapabilityVideo = ({ src, poster, active = true, alt = "" }) => {
         src={poster}
         alt={alt}
         aria-hidden={videoReady}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+        className={`absolute inset-0 w-full h-full object-cover scale-[1.03] sm:scale-[1.04] transform origin-center transition-opacity duration-300 ${
           videoReady ? "opacity-0 pointer-events-none" : "opacity-100"
         }`}
       />

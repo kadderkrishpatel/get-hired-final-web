@@ -73,15 +73,15 @@ const WhyGetHiredSection = () => {
           variants={petalUp}
           custom={index}
           key={`${setIndex}-${card.title}`}
-          className="w-[280px] sm:w-[320px] min-h-[270px] shrink-0
-          rounded-2xl bg-white/[0.07] backdrop-blur-[6px] border border-white/10
-          p-6 flex flex-col justify-between
-          transition-colors duration-300 hover:bg-white/[0.12]"
+          className="w-[300px] sm:w-[350px] lg:w-[370px] min-h-[290px] sm:min-h-[320px] shrink-0
+          rounded-2xl bg-white/[0.08] backdrop-blur-[10px] border border-white/15
+          p-6 sm:p-8 flex flex-col justify-between gap-8
+          transition-all duration-300 hover:bg-white/[0.14]"
         >
-          <h3 className="text-white text-xl sm:text-[22px] font-semibold">
+          <h3 className="text-white text-lg sm:text-xl font-semibold font-display leading-6 sm:leading-7">
             {card.title}
           </h3>
-          <p className="mt-16 text-[13px] leading-relaxed text-slate-300">
+          <p className="text-white text-sm sm:text-base font-normal font-display leading-6">
             {card.description}
           </p>
         </motion.div>
@@ -113,14 +113,14 @@ const WhyGetHiredSection = () => {
           >
             <motion.p
               variants={fadeDown}
-              className="text-primary text-[11px] sm:text-xs font-extrabold tracking-[0.28em] uppercase"
+              className="text-primary text-xs sm:text-sm font-extrabold tracking-[0.2em] uppercase"
             >
               {whySection?.label}
             </motion.p>
 
             <motion.h2
               variants={fadeDown}
-              className="px-5 py-10 max-w-[1100px] text-[26px] sm:text-4xl lg:text-[42px] leading-[1.25] font-medium text-white"
+              className="mt-4 sm:mt-5 max-w-[950px] text-white text-xl sm:text-3xl lg:text-[34px] font-semibold font-display leading-snug sm:leading-tight lg:leading-[44px]"
             >
               {whySection?.title}
             </motion.h2>

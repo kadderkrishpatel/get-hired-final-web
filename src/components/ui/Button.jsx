@@ -11,7 +11,7 @@ const Button = ({ children, className = "", onClick }) => {
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.97 }}
       transition={{ type: "spring", stiffness: 400, damping: 24 }}
-      className={`px-7 py-4
+      className={`px-8 py-3
       bg-primary text-white text-lg font-bold
       rounded-xl
       shadow-[0px_10px_24px_rgba(195,47,38,0.30)]

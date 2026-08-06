@@ -3,8 +3,8 @@ const SectionHeading = ({ label, title, description, center = false }) => {
     <div
       className={
         center
-          ? "flex flex-col items-center text-center gap-5"
-          : "flex flex-col items-start gap-5"
+          ? "flex flex-col items-center text-center gap-3"
+          : "flex flex-col items-start gap-3"
       }
     >
       {label && (
@@ -28,11 +28,11 @@ const SectionHeading = ({ label, title, description, center = false }) => {
           className="
             text-slate-900
             text-4xl
-            lg:text-5xl
+            lg:text-[2.0rem]
             font-medium
             font-display
-            leading-tight
-            lg:leading-[57.6px]
+            leading-snug
+            lg:leading-[1.2]
           "
         >
           {title}
@@ -43,11 +43,11 @@ const SectionHeading = ({ label, title, description, center = false }) => {
         <p
           className={`
             text-slate-600
-            text-base
+            text-xl
             sm:text-[17px]
             font-medium
             font-display
-            leading-relaxed
+            leading-8
             max-w-2xl
             ${center ? "mx-auto" : ""}
           `}

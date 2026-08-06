@@ -10,14 +10,13 @@ const ConsultingEcosystemSection = () => {
   const ecosystemSection = useArrayTranslation("ecosystem_section");
   const ecosystemCards = useArrayTranslation("ecosystem_cards");
 
-  // Cloud sits low by default. It only rises when a CARD is hovered —
-  // not the whole section (heading/whitespace shouldn't trigger it).
+  // Cloud sits low by default. It rises when a card is hovered.
   const [cardsHovered, setCardsHovered] = useState(false);
 
   return (
     <section className="px-3 sm:px-6 py-10">
       <Reveal className="relative max-w-7xl mx-auto rounded-[20px] overflow-hidden bg-gradient-to-b from-[#A7BADD] from-10% to-[#AFC9F9]">
-        {/* Cloud background image — starts shifted down, rises only on card hover */}
+        {/* Cloud background image — starts shifted down, rises on card hover */}
         <img
           src="/images/our_consulting/Cloud_Large.png"
           alt=""
@@ -39,8 +38,7 @@ const ConsultingEcosystemSection = () => {
             description={ecosystemSection?.description}
           />
 
-          {/* Cards — stagger in one by one. Hovering ANY card here (and only here)
-              tells the cloud above to rise. */}
+          {/* Cards — stagger in one by one. Hovering any card tells the cloud to rise. */}
           <motion.div
             variants={staggerContainer(0.12, 0.1)}
             initial="hidden"

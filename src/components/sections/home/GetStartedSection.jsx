@@ -14,10 +14,7 @@ const GetStartedSection = () => {
         className="group relative max-w-7xl mx-auto rounded-[28px] overflow-hidden
         bg-gradient-to-b from-[#AFC9F9] to-[#FFFFFF]"
       >
-        {/* Cloud background — sits in its natural (up) position by default.
-            On hover, it slides DOWN (top to bottom), same group-hover
-            mechanism as ConsultingEcosystemSection, just the reverse
-            direction. */}
+        {/* Cloud background — sits in its natural position by default, slides down on hover */}
         <img
           src="/images/our_consulting/Cloud_Large.png"
           alt=""

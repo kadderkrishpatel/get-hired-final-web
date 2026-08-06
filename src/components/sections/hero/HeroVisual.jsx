@@ -1,196 +1,152 @@
-import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "motion/react";
+  import { useEffect, useState } from "react";
+  import { motion, AnimatePresence } from "motion/react";
 
-// Phone mockup + floating chips/job-card/avatars — enters as a staggered
-// "pop" cascade on hover matching the reference video.
-// 1. Phone slides up on page load.
-// 2. When user hovers over the hero card container:
-//    - Job card slides out of the phone to the left.
-//    - Simultaneously, Card 2 slides up inside the phone.
-//    - Staggered side chips pop into view.
-// 3. When hover leaves, the card slides back inside the phone and chips hide.
-const HeroVisual = ({ heroSection }) => {
-  const assetBaseUrl = import.meta.env.VITE_IMAGES;
+  const HeroVisual = () => {
+    const assetBaseUrl = import.meta.env.VITE_IMAGES || "";
 
-  const jobImages = [
-    `${assetBaseUrl}/images/hero/Software_Eng.png`,
-    // If you add more images later, they will cycle seamlessly:
-    // `${assetBaseUrl}/images/hero/Software_Eng_2.png`,
-  ];
+    const jobImages = [
+      `${assetBaseUrl}/images/hero/Software_Eng.png`,
+    ];
 
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [cycle, setCycle] = useState(0);
+    const [cycle, setCycle] = useState(0);
 
-  const intervalRef = useRef(null);
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setCycle((prev) => prev + 1);
+      }, 4500);
+      return () => clearInterval(interval);
+    }, []);
 
-  useEffect(() => {
-    // Detect viewport size for precise card offsets
-    const checkMobile = () => setIsMobile(window.innerWidth < 640);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+    const floatIdle = (yMax = 6, duration = 3.8, delay = 0) => ({
+      animate: {
+        y: [0, -yMax, 0],
+      },
+      transition: {
+        duration: duration,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut",
+        delay: delay,
+      },
+    });
 
-    setIsLoaded(true);
-
-    // Start the infinite looping card process
-    intervalRef.current = setInterval(() => {
-      setCycle((prev) => prev + 1);
-    }, 4200);
-
-    return () => {
-      window.removeEventListener("resize", checkMobile);
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, []);
-
-  // Card 1 (Job Card) slide-out parameters:
-  // Starts centered exactly over the baked-in phone card, then slides out to the left and grows to full size.
-  const card1Variants = {
-    hidden: {
-      opacity: 0,
-      x: isMobile ? "18%" : "23%",
-      y: isMobile ? "1.5%" : "2%",
-      scale: isMobile ? 0.78 : 0.72,
-    },
-    visible: {
-      opacity: 1,
-      x: isMobile ? "18%" : "23%",
-      y: isMobile ? "1.5%" : "2%",
-      scale: isMobile ? 0.78 : 0.72,
-      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] },
-    },
-    slideOut: {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      scale: 1,
-      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] },
-    },
-  };
-
-  const activeImage = jobImages[cycle % jobImages.length];
-  const nextImage = jobImages[(cycle + 1) % jobImages.length];
-
-  return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="relative w-full max-w-3xl mt-14 sm:mt-16 mx-auto aspect-[16/10]"
-    >
-      {/* Phone — center pe, base layer */}
-      <motion.div
-        initial={{ y: 140, opacity: 0 }}
-        animate={isLoaded ? { y: 0, opacity: 1 } : { y: 140, opacity: 0 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute left-1/2 top-0 -translate-x-1/2 w-[62%] sm:w-[46%] z-10"
-      >
-        <div className="relative [mask-image:linear-gradient(to_bottom,black_62%,transparent_96%)]">
-          {/* Phone Mockup Frame */}
-          <img
-            src={`${assetBaseUrl}/images/hero/Mobile.png`}
-            alt="Get Hired mobile app"
-            className="w-full h-auto drop-shadow-[10px_4px_10px_rgba(10,0,0,0.10)]"
-            draggable={false}
-          />
-
-          {/* Screen Overlay (Covers the baked Adobe & Discord cards, rendering the slide-up replacement instead) */}
-          <div className="relative w-[90%] mx-auto mt-2 h-[80%] overflow-hidden">
-            <AnimatePresence mode="popLayout">
-              <motion.div
-                key={`inside-${cycle}`}
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                exit={{ y: "-100%" }}
-                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute inset-x-0 top-0"
-              >
-                <img
-                  src={nextImage}
-                  alt="Job Card inside"
-                  className="w-full h-auto drop-shadow-sm"
-                  draggable={false}
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Card 1 — Slides out of the phone to the left (Looping Anim) */}
-      <AnimatePresence mode="popLayout">
+    return (
+      <div className="relative w-full max-w-3xl mt-8 sm:mt-12 mx-auto aspect-[16/10] sm:aspect-[16/9] select-none z-10">
+        
+        {/* 1. PHONE MOCKUP FRAME */}
         <motion.div
-          key={`float-${cycle}`}
-          variants={card1Variants}
-          initial="hidden"
-          animate={isHovered ? "slideOut" : "visible"}
-          exit={{ opacity: 0, y: 40, scale: 0.95, transition: { duration: 0.6 } }}
-          className="absolute left-[6%] sm:left-[6%] lg:left-[8%] top-[42%] z-30 w-[62%] sm:w-[46%] lg:w-[44%] max-w-[380px] text-left"
+          initial={{ y: 140, opacity: 0, scale: 0.9 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute left-1/2 top-0 -translate-x-1/2 w-[65%] sm:w-[52%] lg:w-[48%] z-10"
         >
-          <div>
+          <motion.div {...floatIdle(5, 4.0, 1.8)}>
+            {/* Smooth Bottom Fade Mask on Phone Frame */}
+            <div className="relative [mask-image:linear-gradient(to_bottom,black_50%,transparent_95%)] [-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent_95%)]">
+              <img
+                src={`${assetBaseUrl}/images/hero/Mobile.png`}
+                alt="Get Hired Mobile"
+                className="w-full h-auto drop-shadow-[0_20px_35px_rgba(0,0,0,0.12)]"
+                draggable={false}
+              />
+
+              {/* Inner Mobile Screen Content */}
+              <div className="absolute top-[6.8%] left-[5.5%] w-[89%] h-[82%] overflow-hidden rounded-[24px]">
+                <AnimatePresence mode="popLayout">
+                  <motion.div
+                    key={`inner-${cycle}`}
+                    initial={{ y: "100%" }}
+                    animate={{ y: "0%" }}
+                    exit={{ y: "-100%" }}
+                    transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 1.2 }}
+                    className="absolute inset-0 w-full"
+                  >
+                    {/* <img
+                      src={jobImages[cycle % jobImages.length]}
+                      alt="Screen Content"
+                      className="w-full h-auto object-top"
+                      draggable={false}
+                    /> */}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+
+
+        {/* 2. FLOATING CARDS */}
+
+        {/* Software Engineer Card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.6, x: -40, y: 30 }}
+          animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+          transition={{ duration: 1.0, delay: 0.9, ease: [0.34, 1.4, 0.64, 1] }}
+          className="absolute left-[8%] sm:left-[14%] lg:left-[16%] top-[30%] sm:top-[34%] z-30 w-[52%] sm:w-[44%] max-w-[360px]"
+        >
+          <motion.div {...floatIdle(8, 3.6, 1.8)}>
             <img
-              src={activeImage}
-              alt="Job Card"
+              src={jobImages[cycle % jobImages.length]}
+              alt="Software Engineer Card"
+              className="w-full h-auto mt-10 drop-shadow-[0_15px_30px_rgba(0,0,0,0.15)] rounded-2xl"
+              draggable={false}
+            />
+          </motion.div>
+        </motion.div>
+
+        {/* Companies Chip */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5, x: -30, y: -20 }}
+          animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+          transition={{ duration: 0.9, delay: 1.0, ease: [0.34, 1.4, 0.64, 1] }}
+          className="absolute left-[5%] sm:left-[10%] lg:left-[14%] top-[10%] sm:top-[12%] z-30 w-[24%] sm:w-[19%] max-w-[155px]"
+        >
+          <motion.div {...floatIdle(6, 3.2, 1.8)}>
+            <img
+              src={`${assetBaseUrl}/images/hero/Companies01.png`}
+              alt="Companies"
               className="w-full h-auto drop-shadow-xl"
               draggable={false}
             />
-          </div>
+          </motion.div>
         </motion.div>
-      </AnimatePresence>
 
-      {/* Companies Chip — phone ke upar-left, floating */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8, x: -60, y: 10 }}
-        animate={isHovered ? { opacity: 1, scale: 1, x: 0, y: 0 } : { opacity: 0, scale: 0.8, x: -60, y: 10 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: isHovered ? 0.15 : 0 }}
-        className="absolute left-[2%] sm:left-[6%] top-[20%] z-20 hidden sm:block w-[20%] max-w-[160px]"
-      >
-        <div>
-          <img
-            src={`${assetBaseUrl}/images/hero/Companies01.png`}
-            alt="Companies"
-            className="w-full h-auto drop-shadow-lg"
-            draggable={false}
-          />
-        </div>
-      </motion.div>
+        {/* 92% Success Rate Chip */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5, x: 30, y: -20 }}
+          animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+          transition={{ duration: 0.9, delay: 1.1, ease: [0.34, 1.4, 0.64, 1] }}
+          className="absolute right-[5%] sm:right-[10%] lg:right-[14%] top-[10%] sm:top-[12%] z-30 w-[24%] sm:w-[19%] max-w-[155px]"
+        >
+          <motion.div {...floatIdle(7, 4.0, 1.8)}>
+            <img
+              src={`${assetBaseUrl}/images/hero/HeroCounterIMG.png`}
+              alt="Success Rate"
+              className="w-full h-auto drop-shadow-xl"
+              draggable={false}
+            />
+          </motion.div>
+        </motion.div>
 
-      {/* Success Rate Chip — phone ke upar-right, floating */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8, x: 60, y: 10 }}
-        animate={isHovered ? { opacity: 1, scale: 1, x: 0, y: 0 } : { opacity: 0, scale: 0.8, x: 60, y: 10 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: isHovered ? 0.3 : 0 }}
-        className="absolute right-[2%] sm:right-[6%] top-[20%] z-20 hidden sm:block w-[20%] max-w-[160px]"
-      >
-        <div>
-          <img
-            src={`${assetBaseUrl}/images/hero/HeroCounterIMG.png`}
-            alt="Success Rate"
-            className="w-full h-auto drop-shadow-lg"
-            draggable={false}
-          />
-        </div>
-      </motion.div>
+        {/* Avatars Strip */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5, x: 30, y: 20 }}
+          animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+          transition={{ duration: 0.9, delay: 1.2, ease: [0.34, 1.4, 0.64, 1] }}
+          className="absolute right-[12%] sm:right-[18%] lg:right-[22%] top-[54%] sm:top-[58%] z-30 w-[18%] sm:w-[14%] max-w-[115px]"
+        >
+          <motion.div {...floatIdle(5, 3.4, 1.8)}>
+            <img
+              src={`${assetBaseUrl}/images/hero/Profiles_img.png`}
+              alt="Profiles"
+              className="w-full h-auto drop-shadow-xl"
+              draggable={false}
+            />
+          </motion.div>
+        </motion.div>
 
-      {/* Avatar Strip — phone ke niche-right corner */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8, x: 60, y: 15 }}
-        animate={isHovered ? { opacity: 1, scale: 1, x: 0, y: 0 } : { opacity: 0, scale: 0.8, x: 60, y: 15 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: isHovered ? 0.45 : 0 }}
-        className="absolute right-[8%] sm:right-[12%] top-[62%] z-30 hidden sm:block w-[16%] max-w-[110px]"
-      >
-        <div>
-          <img
-            src={`${assetBaseUrl}/images/hero/Profiles_img.png`}
-            alt="Profiles"
-            className="w-full h-auto drop-shadow-lg"
-            draggable={false}
-          />
-        </div>
-      </motion.div>
-    </div>
-  );
-};
+      </div>
+    );
+  };
 
-export default HeroVisual;
-
+  export default HeroVisual;

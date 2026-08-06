@@ -1,66 +1,67 @@
-"use client"
-import { useEffect, useRef } from "react";
-import { useInView, useReducedMotion, animate } from "motion/react";
+"use client";
+import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 
 // ============================================================
-// StatCounter
-// Animated statistics counter (0 -> target) triggered on scroll.
-//
-// Parses display values straight from en.json so translations stay
-// untouched: "1000+" -> counts to 1000 and keeps the "+",
-//            "05+"   -> keeps the leading-zero padding ("00" ... "05").
-// Falls back to plain text for non-numeric values / reduced motion.
-//
-// The number is rendered in a fixed-width box (sized to the final
-// digit count, tabular-nums so every digit takes equal space) so the
-// prefix/suffix ("$", "+", "%") never shifts while digits are counting.
+// Odometer Counter FX (Uber / Stripe Style)
+// Smooth, slow, elegant vertical digit wheel counter.
+// Each digit rolls at a luxurious speed with spring deceleration.
 // ============================================================
-// Total time for the count-up, in seconds. Reference animation takes
-// ~2s — noticeably slower than a snappy 1s counter.
-const DURATION = 2;
 
-// Gentle deceleration curve (not a raw exponential, which reaches ~90%
-// in the first few frames and feels like an instant jump). This bezier
-// climbs steadily through the middle and only eases off right at the
-// end, matching the reference's "creeps into the final number" feel.
-const EASE_COUNT = [0.16, 1, 0.3, 1];
+// 2 full cycles of digits 0-9 (0..9, 0..9) = 20 items
+const DIGIT_CYCLES = [
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+];
+const TOTAL_ITEMS = DIGIT_CYCLES.length; // 20
+
+const OdometerDigit = ({ digit, colIndex, inView }) => {
+  const targetDigit = parseInt(digit, 10);
+
+  if (isNaN(targetDigit)) {
+    return <span className="inline-block">{digit}</span>;
+  }
+
+  // Spin 1 full cycle (10 steps) + land on targetDigit in the 2nd cycle
+  const targetIndex = 10 + targetDigit;
+  const targetYPercent = (targetIndex / TOTAL_ITEMS) * 100;
+
+  return (
+    <span className="inline-block overflow-hidden h-[1.05em] relative leading-none align-baseline">
+      <motion.span
+        initial={{ y: "0%" }}
+        animate={inView ? { y: `-${targetYPercent}%` } : { y: "0%" }}
+        transition={{
+          type: "spring",
+          stiffness: 18, // Slower, silky smooth spring roll
+          damping: 14,   // Soft, graceful deceleration
+          mass: 1.15,    // Luxurious smooth weight feel
+          delay: 0.15 + colIndex * 0.18, // Clear staggered timing per digit wheel
+        }}
+        className="flex flex-col leading-none"
+      >
+        {DIGIT_CYCLES.map((num, i) => (
+          <span
+            key={i}
+            className="h-[1.05em] flex items-center justify-center select-none"
+          >
+            {num}
+          </span>
+        ))}
+      </motion.span>
+    </span>
+  );
+};
 
 const StatCounter = ({ value, className = "" }) => {
   const ref = useRef(null);
-  const numRef = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   const reduceMotion = useReducedMotion();
 
-  const match = String(value ?? "").match(/^([^0-9]*)(\d+)(.*)$/);
-  const prefix = match?.[1] ?? "";
-  const digits = match?.[2] ?? "";
-  const suffix = match?.[3] ?? "";
-  const target = digits ? parseInt(digits, 10) : 0;
-  const pad = digits.startsWith("0") ? digits.length : 0;
-  const format = (n) => (pad ? String(n).padStart(pad, "0") : String(n));
+  const strValue = String(value ?? "");
+  const match = strValue.match(/^([^0-9]*)(\d+)(.*)$/);
 
-  useEffect(() => {
-    const el = numRef.current;
-    if (!el || !inView || !match) return;
-
-    if (reduceMotion) {
-      el.textContent = digits;
-      return;
-    }
-
-    const controls = animate(0, target, {
-      duration: DURATION,
-      ease: EASE_COUNT,
-      onUpdate: (latest) => {
-        el.textContent = format(Math.round(latest));
-      },
-    });
-
-    return () => controls.stop();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView, reduceMotion, value]);
-
-  if (!match) {
+  if (!match || reduceMotion) {
     return (
       <span ref={ref} className={className}>
         {value}
@@ -68,22 +69,43 @@ const StatCounter = ({ value, className = "" }) => {
     );
   }
 
+  const prefix = match[1];
+  const digitsStr = match[2];
+  const suffix = match[3];
+
   return (
-    <span ref={ref} className={className}>
-      {prefix}
-      <span
-        ref={numRef}
-        style={{
-          display: "inline-block",
-          width: `${digits.length}ch`,
-          textAlign: "right",
-          fontVariantNumeric: "tabular-nums",
-        }}
-      >
-        {format(0)}
-      </span>
-      {suffix}
-    </span>
+    <motion.span
+      ref={ref}
+      initial={{ opacity: 0, y: 25, scale: 0.9 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 25, scale: 0.9 }}
+      transition={{ type: "spring", stiffness: 60, damping: 14 }}
+      className={`inline-flex items-baseline leading-none font-variant-numeric-tabular ${className}`}
+    >
+      {prefix && <span className="inline-block">{prefix}</span>}
+      {digitsStr.split("").map((digitChar, colIdx) => (
+        <OdometerDigit
+          key={colIdx}
+          digit={digitChar}
+          colIndex={colIdx}
+          inView={inView}
+        />
+      ))}
+      {suffix && (
+        <motion.span
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+          transition={{
+            type: "spring",
+            stiffness: 90,
+            damping: 12,
+            delay: 0.2 + digitsStr.length * 0.18,
+          }}
+          className="inline-block"
+        >
+          {suffix}
+        </motion.span>
+      )}
+    </motion.span>
   );
 };
 

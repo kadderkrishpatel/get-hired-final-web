@@ -81,7 +81,7 @@
 
 
 /* ===== Marquee edge fade (center-focus effect) ===== */
-.marquee-fade {
+/* .marquee-fade {
   mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -96,6 +96,21 @@
     black 68%,
     transparent 100%
   );
+} */
+
+.marquee-fade {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
 }
-
-

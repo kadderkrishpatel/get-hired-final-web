@@ -8,7 +8,7 @@ const HeroContent = ({ heroSection, badgeIcon }) => {
       {/* Badge + Heading + Description */}
       <div className="w-full flex flex-col justify-start items-center gap-6">
         {/* Badge + Heading */}
-        <div className="w-full flex flex-col justify-start items-center gap-4">
+        <div className=" w-full flex flex-col justify-start items-center gap-2">
           <div>
             <SectionBadge title={heroSection?.badge} icon={badgeIcon} />
           </div>
@@ -21,11 +21,11 @@ const HeroContent = ({ heroSection, badgeIcon }) => {
               dark:text-white
               font-semibold
               font-display
-              text-5xl
-              sm:text-6xl
-              lg:text-8xl
+              text-3xl
+              sm:text-4xl
+              lg:text-7xl
               leading-tight
-              lg:leading-[96.8px]
+              lg:leading-[64px]
               tracking-normal
             "
           >
@@ -39,25 +39,25 @@ const HeroContent = ({ heroSection, badgeIcon }) => {
         </div>
 
         {/* Description */}
-        <p
+        <div
           className="
             w-full
             max-w-[760px]
             text-center
             text-slate-600
             dark:text-slate-300
-            text-xl
+            text-[18px]
             font-medium
             font-display
             leading-8
           "
         >
           {heroSection?.description}
-        </p>
+        </div>
       </div>
 
       {/* CTA Button */}
-      <div className="inline-flex justify-center items-center">
+      <div className="inline-flex justify-center items-center ">
         <Button
           onClick={() =>
             document

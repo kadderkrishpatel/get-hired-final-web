@@ -31,13 +31,13 @@ const SectionBadge = ({ title, icon }) => {
       <span
         className="
           text-center
-          text-slate-900
+          text-blue-950
           text-sm
           font-bold
           font-display
           uppercase
           leading-5
-          tracking-[0.16em]
+          tracking-widest
           whitespace-nowrap
         "
       >
