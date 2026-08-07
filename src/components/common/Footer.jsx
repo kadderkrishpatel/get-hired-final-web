@@ -244,7 +244,7 @@ const Footer = () => {
               style={{ height: reduceMotion ? chartH : chartHeight }}
             >
               <motion.div
-                className="absolute bottom-0 left-0 right-0 flex origin-bottom items-end justify-between px-1 sm:px-4 gap-0.5 sm:gap-1"
+                className="absolute bottom-0 left-0 right-0 flex origin-bottom items-end justify-between px-0 gap-0"
                 style={{ height: chartH, scaleY: reduceMotion ? 1 : scaleY }}
               >
                 {[
@@ -253,8 +253,13 @@ const Footer = () => {
                 ].map((barHeight, index) => (
                   <div
                     key={index}
-                    style={{ height: barHeight, zIndex: 30 - index }}
-                    className="relative flex-1 bg-gradient-to-b from-slate-300/90 via-[#080f31] via-[38%] to-transparent shadow-[8px_23px_8px_1px_rgba(0,0,0,0.35)] border-l border-dashed border-white/40 border-r border-white/15"
+                    style={{
+                      height: barHeight,
+                      zIndex: 30 - index,
+                      WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 28px)",
+                      maskImage: "linear-gradient(to bottom, transparent 0%, black 28px)",
+                    }}
+                    className="relative flex-1 bg-gradient-to-b from-transparent via-[#0e1942]/90 via-[35%] to-slate-300/35 border-l border-dashed border-white/20"
                   />
                 ))}
               </motion.div>
