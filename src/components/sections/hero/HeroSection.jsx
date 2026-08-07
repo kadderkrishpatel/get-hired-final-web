@@ -37,8 +37,6 @@ const HeroSection = () => {
         bg-gradient-to-b
         from-white
         to-indigo-200
-        dark:from-dark-bg
-        dark:to-[#161b3d]
         flex flex-col items-center text-center
         px-5
       "

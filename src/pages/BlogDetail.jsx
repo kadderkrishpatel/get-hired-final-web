@@ -29,17 +29,17 @@ const BlogDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-cream/40 dark:bg-dark-bg/40 flex flex-col justify-center items-center py-24">
+      <div className="min-h-screen bg-cream/40 flex flex-col justify-center items-center py-24">
         {/* Sleek skeleton loader */}
         <div className="w-full max-w-3xl px-5 sm:px-8 space-y-6 animate-pulse">
-          <div className="h-6 w-24 bg-slate-200 dark:bg-slate-800 rounded-lg"></div>
-          <div className="h-10 w-3/4 bg-slate-300 dark:bg-slate-700 rounded-xl"></div>
-          <div className="h-4 w-1/3 bg-slate-200 dark:bg-slate-800 rounded"></div>
-          <div className="h-72 w-full bg-slate-200 dark:bg-slate-800 rounded-2xl"></div>
+          <div className="h-6 w-24 bg-slate-200 rounded-lg"></div>
+          <div className="h-10 w-3/4 bg-slate-300 rounded-xl"></div>
+          <div className="h-4 w-1/3 bg-slate-200 rounded"></div>
+          <div className="h-72 w-full bg-slate-200 rounded-2xl"></div>
           <div className="space-y-3 pt-4">
-            <div className="h-4 w-full bg-slate-200 dark:bg-slate-800 rounded"></div>
-            <div className="h-4 w-full bg-slate-200 dark:bg-slate-800 rounded"></div>
-            <div className="h-4 w-5/6 bg-slate-200 dark:bg-slate-800 rounded"></div>
+            <div className="h-4 w-full bg-slate-200 rounded"></div>
+            <div className="h-4 w-full bg-slate-200 rounded"></div>
+            <div className="h-4 w-5/6 bg-slate-200 rounded"></div>
           </div>
         </div>
       </div>
@@ -48,9 +48,9 @@ const BlogDetail = () => {
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-cream/40 dark:bg-dark-bg/40 flex flex-col justify-center items-center py-24 px-5 text-center">
-        <h2 className="text-2xl font-bold text-navy dark:text-cream">Article Not Found</h2>
-        <p className="mt-2 text-slate-500 dark:text-slate-400">The article you are looking for does not exist or has been removed.</p>
+      <div className="min-h-screen bg-cream/40 flex flex-col justify-center items-center py-24 px-5 text-center">
+        <h2 className="text-2xl font-bold text-navy">Article Not Found</h2>
+        <p className="mt-2 text-slate-500">The article you are looking for does not exist or has been removed.</p>
         <Link to="/" className="mt-6">
           <OutlineButton>Back to Home</OutlineButton>
         </Link>
@@ -63,7 +63,7 @@ const BlogDetail = () => {
   const sanitizedContent = DOMPurify.sanitize(post.content || "");
 
   return (
-    <div className="min-h-screen bg-cream/40 dark:bg-dark-bg/40 pt-[90px] pb-24">
+    <div className="min-h-screen bg-cream/40 pt-[90px] pb-24">
       <SEO
         seo={{
           metaTitle: `${postTitle} | Get-Hired Career Insights`,
@@ -86,18 +86,18 @@ const BlogDetail = () => {
         </div>
 
         {/* Post category badge */}
-        <span className="inline-block bg-lilac dark:bg-lilac/20 text-navy dark:text-lilac text-xs font-bold px-3.5 py-1.5 rounded-lg mb-4">
+        <span className="inline-block bg-lilac text-navy text-xs font-bold px-3.5 py-1.5 rounded-lg mb-4">
           {post.tag}
         </span>
 
         {/* Title */}
         <h1 
-          className="text-3xl sm:text-4xl md:text-[44px] font-bold text-navy dark:text-cream leading-tight tracking-tight mb-4">
+          className="text-3xl sm:text-4xl md:text-[44px] font-bold text-navy leading-tight tracking-tight mb-4">
           {postTitle}
         </h1>
 
         {/* Date & read time */}
-        <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-8 border-b border-slate-200/60 dark:border-white/10 pb-6">
+        <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-500 mb-8 border-b border-slate-200/60 pb-6">
           <span>{post.date}</span>
           <span>·</span>
           <span>{post.readTime}</span>
@@ -116,9 +116,9 @@ const BlogDetail = () => {
 
         {/* Content body */}
         <div 
-          className="prose prose-slate dark:prose-invert max-w-none text-navy/80 dark:text-slate-200/90 
+          className="prose prose-slate max-w-none text-navy/80 
             text-base sm:text-[17px] leading-relaxed space-y-6 
-            prose-h3:text-xl prose-h3:font-semibold prose-h3:text-navy dark:prose-h3:text-cream prose-h3:mt-8 prose-h3:mb-3
+            prose-h3:text-xl prose-h3:font-semibold prose-h3:text-navy prose-h3:mt-8 prose-h3:mb-3
             prose-p:mb-5
             prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-2
             prose-ol:list-decimal prose-ol:pl-6 prose-ol:space-y-2"

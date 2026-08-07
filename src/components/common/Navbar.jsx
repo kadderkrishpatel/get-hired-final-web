@@ -130,8 +130,8 @@ const Navbar = () => {
       }
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-white/85 dark:bg-dark-bg/85 shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
-          : "bg-cream/60 dark:bg-dark-bg/60"
+          ? "bg-white/85 shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
+          : "bg-cream/60"
       } backdrop-blur-md`}
     >
       <div className="w-full mx-auto px-5 sm:px-[40px] py-[9px] flex items-center justify-between">
@@ -142,7 +142,7 @@ const Navbar = () => {
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((prev) => !prev)}
-            className="md:hidden flex justify-center items-center w-10 h-10 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors cursor-pointer outline-none"
+            className="md:hidden flex justify-center items-center w-10 h-10 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer outline-none"
           >
             <motion.div
               animate={{ rotate: mobileOpen ? 180 : 0 }}
@@ -156,7 +156,7 @@ const Navbar = () => {
                     : { rotate: 0, y: 0, width: "24px" }
                 }
                 transition={{ duration: 0.18 }}
-                className="h-0.5 bg-navy dark:bg-cream rounded block origin-center"
+                className="h-0.5 bg-navy rounded block origin-center"
               />
               <motion.span
                 animate={
@@ -165,7 +165,7 @@ const Navbar = () => {
                     : { opacity: 1, scaleX: 1 }
                 }
                 transition={{ duration: 0.1 }}
-                className="h-0.5 w-4 bg-navy dark:bg-cream rounded block self-end origin-right"
+                className="h-0.5 w-4 bg-navy rounded block self-end origin-right"
               />
               <motion.span
                 animate={
@@ -174,7 +174,7 @@ const Navbar = () => {
                     : { rotate: 0, y: 0, width: "24px" }
                 }
                 transition={{ duration: 0.18 }}
-                className="h-0.5 bg-navy dark:bg-cream rounded block origin-center"
+                className="h-0.5 bg-navy rounded block origin-center"
               />
             </motion.div>
           </button>
@@ -200,7 +200,7 @@ const Navbar = () => {
             className={`relative px-3 py-3 text-xs font-bold uppercase tracking-[0.16em] leading-4 transition-colors ${
               activeSection === "#about"
                 ? "text-primary"
-                : "text-slate-900 dark:text-slate-200 hover:text-primary"
+                : "text-slate-900 hover:text-primary"
             }`}
           >
             About
@@ -223,7 +223,7 @@ const Navbar = () => {
             className={`relative px-3 py-3 text-xs font-bold uppercase tracking-[0.16em] leading-4 transition-colors ${
               activeSection === "#services"
                 ? "text-primary"
-                : "text-slate-900 dark:text-slate-200 hover:text-primary"
+                : "text-slate-900 hover:text-primary"
             }`}
           >
             Services
@@ -246,7 +246,7 @@ const Navbar = () => {
             className={`relative px-3 py-3 text-xs font-bold uppercase tracking-[0.16em] leading-4 transition-colors ${
               activeSection === "#results"
                 ? "text-primary"
-                : "text-slate-900 dark:text-slate-200 hover:text-primary"
+                : "text-slate-900 hover:text-primary"
             }`}
           >
             Results
@@ -269,7 +269,7 @@ const Navbar = () => {
             className={`relative px-3 py-3 text-xs font-bold uppercase tracking-[0.16em] leading-4 transition-colors ${
               location.pathname === "/contact"
                 ? "text-primary"
-                : "text-slate-900 dark:text-slate-200 hover:text-primary"
+                : "text-slate-900 hover:text-primary"
             }`}
           >
             Contact
@@ -291,7 +291,7 @@ const Navbar = () => {
             className={`relative px-3 py-3 text-xs font-bold uppercase tracking-[0.16em] leading-4 transition-colors ${
               location.pathname.startsWith("/blog")
                 ? "text-primary"
-                : "text-slate-900 dark:text-slate-200 hover:text-primary"
+                : "text-slate-900 hover:text-primary"
             }`}
           >
             Blog
@@ -332,7 +332,7 @@ const Navbar = () => {
             initial="closed"
             animate="open"
             exit="closed"
-            className="md:hidden overflow-hidden origin-top bg-white/95 dark:bg-dark-bg/95 backdrop-blur-xl border-t border-slate-100 dark:border-white/10 shadow-2xl"
+            className="md:hidden overflow-hidden origin-top bg-white/95 backdrop-blur-xl border-t border-slate-100 shadow-2xl"
           >
             <div className="flex flex-col px-6 py-5 gap-1">
               
@@ -343,10 +343,10 @@ const Navbar = () => {
                     handleMenuClose();
                     handleScrollToSection("about")(e);
                   }}
-                  className={`flex items-center justify-between py-3.5 font-bold font-display text-base border-b border-slate-100 dark:border-white/10 ${
+                  className={`flex items-center justify-between py-3.5 font-bold font-display text-base border-b border-slate-100 ${
                     activeSection === "#about"
                       ? "text-primary"
-                      : "text-navy dark:text-slate-100"
+                      : "text-navy"
                   }`}
                 >
                   <span>About</span>
@@ -361,10 +361,10 @@ const Navbar = () => {
                     handleMenuClose();
                     handleScrollToSection("services")(e);
                   }}
-                  className={`flex items-center justify-between py-3.5 font-bold font-display text-base border-b border-slate-100 dark:border-white/10 ${
+                  className={`flex items-center justify-between py-3.5 font-bold font-display text-base border-b border-slate-100 ${
                     activeSection === "#services"
                       ? "text-primary"
-                      : "text-navy dark:text-slate-100"
+                      : "text-navy"
                   }`}
                 >
                   <span>Services</span>
@@ -379,10 +379,10 @@ const Navbar = () => {
                     handleMenuClose();
                     handleScrollToSection("results")(e);
                   }}
-                  className={`flex items-center justify-between py-3.5 font-bold font-display text-base border-b border-slate-100 dark:border-white/10 ${
+                  className={`flex items-center justify-between py-3.5 font-bold font-display text-base border-b border-slate-100 ${
                     activeSection === "#results"
                       ? "text-primary"
-                      : "text-navy dark:text-slate-100"
+                      : "text-navy"
                   }`}
                 >
                   <span>Results</span>
@@ -397,10 +397,10 @@ const Navbar = () => {
                     handleMenuClose();
                     scrollToTop();
                   }}
-                  className={`flex items-center justify-between py-3.5 font-bold font-display text-base border-b border-slate-100 dark:border-white/10 ${
+                  className={`flex items-center justify-between py-3.5 font-bold font-display text-base border-b border-slate-100 ${
                     location.pathname === "/contact"
                       ? "text-primary"
-                      : "text-navy dark:text-slate-100"
+                      : "text-navy"
                   }`}
                 >
                   <span>Contact</span>
@@ -412,10 +412,10 @@ const Navbar = () => {
                 <NavLink
                   to="/blog"
                   onClick={() => handleMenuClose()}
-                  className={`flex items-center justify-between py-3.5 font-bold font-display text-base border-b border-slate-100 dark:border-white/10 ${
+                  className={`flex items-center justify-between py-3.5 font-bold font-display text-base border-b border-slate-100 ${
                     location.pathname.startsWith("/blog")
                       ? "text-primary"
-                      : "text-navy dark:text-slate-100"
+                      : "text-navy"
                   }`}
                 >
                   <span>Blog</span>

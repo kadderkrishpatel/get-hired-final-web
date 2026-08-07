@@ -1,7 +1,9 @@
-@import "tailwindcss";
-
 /* Brand fonts — Plus Jakarta Sans for both display and body */
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+@import "tailwindcss";
+
+@variant dark (.dark &);
 
 @theme {
   /* ===== Get-Hired brand tokens (colors from the logo) ===== */
@@ -21,6 +23,10 @@
 }
 
 @layer base {
+  :root, html {
+    color-scheme: light;
+  }
+
   html {
     font-family: var(--font-sans);
     scroll-behavior: smooth;

@@ -19,7 +19,7 @@ const BlogCard = ({ post }) => {
   return (
     <Link to={`/blog/${post?.id}`} className="block group cursor-pointer">
       <motion.article variants={fadeUp}>
-        <div className="h-48 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
+        <div className="h-48 rounded-xl overflow-hidden bg-slate-100">
           <img
             src={imageUrl}
             alt={postTitle}

@@ -18,7 +18,6 @@ const HeroContent = ({ heroSection, badgeIcon }) => {
               w-full
               text-center
               text-slate-900
-              dark:text-white
               font-semibold
               font-display
               text-3xl
@@ -45,7 +44,6 @@ const HeroContent = ({ heroSection, badgeIcon }) => {
             max-w-[760px]
             text-center
             text-slate-600
-            dark:text-slate-300
             text-[18px]
             font-medium
             font-display

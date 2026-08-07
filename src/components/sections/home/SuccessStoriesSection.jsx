@@ -39,15 +39,15 @@ const SuccessStoriesSection = () => {
         initial="hidden"
         whileInView="visible"
         viewport={VIEWPORT_ONCE}
-        className="mt-12 py-10 border-y border-slate-100 dark:border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-10 text-center"
+        className="mt-12 py-10 border-y border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-10 text-center"
       >
         {Array.isArray(successStats) &&
           successStats.map((stat) => (
             <motion.div variants={fadeUp} key={stat.label} className="flex flex-col items-center">
-              <p className="text-6xl sm:text-7xl font-bold font-display text-navy dark:text-white tracking-tight">
+              <p className="text-6xl sm:text-7xl font-bold font-display text-navy tracking-tight">
                 <StatCounter value={stat.value} />
               </p>
-              <p className="mt-3 text-base font-display font-semibold text-[#4d5b7c] dark:text-slate-300">
+              <p className="mt-3 text-base font-display font-semibold text-[#4d5b7c]">
                 {stat.label}
               </p>
             </motion.div>
