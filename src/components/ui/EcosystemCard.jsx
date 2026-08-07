@@ -14,10 +14,10 @@ const EcosystemCard = ({ card }) => (
     <p className="text-red-700 text-sm font-normal font-display leading-5">{card?.number}</p>
     <h3 className="text-slate-900 text-3xl font-medium font-display leading-9">{card?.title}</h3>
     <p className="text-slate-600 text-base font-normal font-display leading-6 flex-1">{card?.description}</p>
-    <div className="pb-2 border-b border-red-700 inline-flex items-center gap-2 w-fit">
+    <div className="pb-2 border-b border-transparent cursor-pointer hover:border-red-700 inline-flex items-center gap-2 w-fit transition-colors duration-200">
       <span className="text-red-700 text-base font-bold font-display leading-5">{card?.cta}</span>
       <ArrowUpRight className="w-4 h-4 text-red-700" />
-    </div>
+    </div> 
   </motion.div>
 );
 
